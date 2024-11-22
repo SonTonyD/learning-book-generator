@@ -1,7 +1,12 @@
-pip install fastapi uvicorn
+python -m venv mon_ia_env
+
+# Install dependencies
+
+source mon_ia_env/Scripts/activate
+pip install requirements.txt
 
 # Run the api
 
-source mon_ia_env/Scripts/activate
-
 uvicorn api:app --reload
+
+#
