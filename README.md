@@ -3,7 +3,7 @@ python -m venv mon_ia_env
 # Install dependencies
 
 source mon_ia_env/Scripts/activate
-pip install requirements.txt
+pip install -r requirements.txt
 
 # Run the api
 

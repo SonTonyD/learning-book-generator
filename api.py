@@ -3,6 +3,10 @@ from pydantic import BaseModel
 from typing import List, Optional
 from fastapi.middleware.cors import CORSMiddleware
 
+import main as main_program
+
+import repository as repo
+
 
 # Création de l'application FastAPI
 app = FastAPI()
@@ -98,10 +102,13 @@ def lire_fichier(fichier_path):
         return None
 
 @app.get("/generateBook", response_model=Livre)
-async def generate_book():
+async def generate_book(sujet: str):
+    main_program.generate_livre(sujet)
     livre = analyser_texte(lire_fichier("output.txt"))
+    repo.insert_document(livre.model_dump())
     return livre
 
-@app.get("/")
-async def racine():
-    return {"message": "Bonjour, voici mon premier endpoint FastAPI !"}
+@app.get("/getAllBooks", response_model=List[Livre])
+async def get_all_books():
+    livres = repo.find_all_documents()
+    return livres

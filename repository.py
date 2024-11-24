@@ -1,22 +1,35 @@
-from pymongo import MongoClient # type: ignore
+from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://iaksg:ynot6803@learningbookgenerator.h88j6.mongodb.net/?retryWrites=true&w=majority&appName=LearningBookGenerator")
+# Paramètres de connexion
+uri = "mongodb+srv://dinhsontony:tony1234@cluster0.sv7rj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Modifiez selon votre configuration
+db_name = "lbg"
+collection_name = "livre"
 
-db = client["lbg"]
+# Connexion à la base MongoDB
+client = MongoClient(uri)
+db = client[db_name]
+collection = db[collection_name]
 
-# Sélection de la collection
-collection_livre = db["livre"]
-collection_user = db["user"]
+print(f"Connecté à la base {db_name}, collection {collection_name}")
 
-print("Connexion réussie à MongoDB !")
+# Fonction pour insérer un document
+def insert_document(document):
+    """
+    Insère un document dans la collection.
 
+    :param document: Dictionnaire représentant le document à insérer
+    """
+    result = collection.insert_one(document)
+    print(f"Document inséré avec l'ID : {result.inserted_id}")
 
-def save_livre(livre):
-  result = collection_livre.insert_one(livre)
-  print(f"Livre inséré avec l'ID : {result.inserted_id}")
-  return result
+# Fonction pour rechercher tous les documents
+def find_all_documents():
+    """
+    Récupère tous les documents de la collection.
 
-def save_user(user):
-  result = collection_user(user)
-  print(f"Utilisateur inséré avec l'ID : {result.inserted_id}")
-  return result
+    :return: Liste de tous les documents
+    """
+    documents = list(collection.find())
+    print(f"{len(documents)} documents trouvés.")
+    return documents
+

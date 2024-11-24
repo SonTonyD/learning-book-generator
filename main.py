@@ -90,7 +90,7 @@ def generate_subsection_content(chapters):
             messages=[
                 {
                     "role": "user",
-                    "content": "Dès que tu vois '###' il s'agit d'un titre de chapitre. Si tu vois '#' il s'agit d'une sous-partie. Maintenant, je veux que tu me rédiges chaque sous parties en dessous de son titre respectif: "+chapter+". Tu prendras soin à garder mon format avec les # et les ###. Tu ne feras pas de bullet point. Rédiges un bon paragraphe pour chaque sous partie.",
+                    "content": "Dès que tu vois '###' il s'agit d'un titre de chapitre. Si tu vois '#' il s'agit d'une sous-partie. Maintenant, je veux que tu me rédiges chaque sous parties en dessous de son titre respectif: "+chapter+". Tu prendras soin à garder mon format avec les # et les ###. Tu ne feras pas de bullet point. Rédiges un bon paragraphe pour chaque sous partie. Reviens bien à la ligne après chaque titre de sous partie.",
                 }
             ],
             functions = None,
