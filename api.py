@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Optional
 from fastapi.middleware.cors import CORSMiddleware
+import uuid
 
 import main as main_program
 
@@ -23,6 +24,7 @@ class Chapitre(BaseModel):
 
 # Modèle pour le livre
 class Livre(BaseModel):
+    id: Optional[str] = None
     titre: str
     chapitres: List[Chapitre]
 
@@ -105,6 +107,7 @@ def lire_fichier(fichier_path):
 async def generate_book(sujet: str):
     main_program.generate_livre(sujet)
     livre = analyser_texte(lire_fichier("output.txt"))
+    livre = livre.model_copy(update={"id": str(uuid.uuid4())})
     repo.insert_document(livre.model_dump())
     return livre
 
