@@ -48,7 +48,7 @@ def generate_outlines(sujet) :
         messages=[
             {
                 "role": "user",
-                "content": "Donne moi un sommaire détaillé en français sur le sujet suivant : "+sujet+". Devant les grands titres de chapitres tu mettra des caractères suivant : '###' , et devant les petites parties tu mettras : '#'. ",
+                "content": "Donne moi un sommaire détaillé en français sur le sujet suivant : "+sujet+". Devant les grands titres de chapitres tu mettra des caractères suivant : '###' , et devant les petites parties tu mettras : '#'.",
             }
         ],
         functions = None,
@@ -90,12 +90,12 @@ def generate_subsection_content(chapters):
             messages=[
                 {
                     "role": "user",
-                    "content": "Dès que tu vois '###' il s'agit d'un titre de chapitre. Si tu vois '#' il s'agit d'une sous-partie. Maintenant, je veux que tu me rédiges chaque sous parties en dessous de son sous-titre respectif (#): "+chapter+". Tu prendras soin à garder mon format avec les # et les ###. Tu ne feras pas de bullet point. Rédiges un bon paragraphe uniquement en dessous de chaque sous partie #, Aucun contenu ne doit être écrit sous les titres. Reviens bien à la ligne après chaque titre de sous partie. N'hésite pas à apporter des exemples de temps à autres.",
+                    "content": "Dès que tu vois '###' il s'agit d'un titre de chapitre. Si tu vois '#' il s'agit d'une sous-partie. Maintenant, je veux que tu me rédiges chaque sous parties en dessous de son sous-titre respectif (#): "+chapter+". Tu prendras soin à garder mon format avec les # et les ###. Tu ne feras pas de bullet point. Rédiges un bon paragraphe uniquement en dessous de chaque sous partie #, N'écrit pas d'introduction au chapitre. Reviens bien à la ligne après chaque titre de sous partie. N'hésite pas à apporter des exemples de temps à autres.",
                 }
             ],
             functions = None,
             model="llama3.1-70b",
-            max_tokens=3000,
+            max_tokens=5000,
             stream=True
         )
         
@@ -103,7 +103,7 @@ def generate_subsection_content(chapters):
             chapter_text += str(chunk.choices[0].delta.content)
 
         chapter_text = chapter_text[:-4]
-        chapter_contents.append(str(chapter_text))
+        chapter_contents.append(str(chapter_text) + str('\n'))
 
     for chapter_content in chapter_contents:
         print("############## CONTENU DE UN CHAPITRE ##################")

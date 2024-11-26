@@ -7,6 +7,8 @@ import uuid
 import main as main_program
 
 import repository as repo
+from passlib.context import CryptContext
+
 
 
 # Création de l'application FastAPI
@@ -57,22 +59,22 @@ def analyser_texte(texte: str) -> Livre:
         ligne = ligne.strip()
 
         # Si la ligne est un titre de chapitre
-        if ligne.startswith("### "):
+        if ligne.startswith("###"):
             # Si un chapitre est déjà en cours, on l'ajoute à la liste
             if chapitre:
                 chapitres.append(chapitre)
             
             # Créer un nouveau chapitre
-            chapitre_titre = ligne.replace("### ", "").strip()
+            chapitre_titre = ligne.replace("###", "").strip()
             chapitre = Chapitre(titre=chapitre_titre, sous_parties=[])
         
         # Si la ligne est un titre de sous-partie
-        elif ligne.startswith("# "):
+        elif ligne.startswith("#"):
             if chapitre:
                 if sous_partie:  # Si une sous-partie est en cours, on l'ajoute
                     chapitre.sous_parties.append(sous_partie)
                 
-                sous_partie_titre = ligne.replace("# ", "").strip()
+                sous_partie_titre = ligne.replace("#", "").strip()
                 sous_partie = SousPartie(titre=sous_partie_titre, contenu="")
         
         # Si la ligne n'est ni un titre de chapitre, ni un titre de sous-partie
@@ -115,3 +117,16 @@ async def generate_book(sujet: str):
 async def get_all_books():
     livres = repo.find_all_documents()
     return livres
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+@app.post("/register")
+async def register_user(username: str, password: str):
+    repo.register(username, password)
+
+@app.post("/login")
+async def login_user(username: str, password: str):
+    return repo.login(username, password)
