@@ -121,11 +121,6 @@ def generate_livre(sujet):
     chapters = ec.extract_chapters(outlines)
     chapter_contents = generate_subsection_content(chapters)
 
-    with open(sujet+".txt", "w", encoding="utf-8") as file:
-        file.write("Sujet: "+sujet+"\n")
-        for content in chapter_contents:
-            file.write(content+"\n")
-
     with open("output.txt", "w", encoding="utf-8") as file:
         file.write("Sujet: "+sujet+"\n")
         for content in chapter_contents:
