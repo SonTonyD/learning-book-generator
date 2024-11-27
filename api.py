@@ -27,6 +27,7 @@ class Chapitre(BaseModel):
 # Modèle pour le livre
 class Livre(BaseModel):
     id: Optional[str] = None
+    owner: Optional[str] = None
     titre: str
     chapitres: List[Chapitre]
 
@@ -106,10 +107,10 @@ def lire_fichier(fichier_path):
         return None
 
 @app.get("/generateBook", response_model=Livre)
-async def generate_book(sujet: str):
+async def generate_book(sujet: str, username: str):
     main_program.generate_livre(sujet)
     livre = analyser_texte(lire_fichier("output.txt"))
-    livre = livre.model_copy(update={"id": str(uuid.uuid4())})
+    livre = livre.model_copy(update={"id": str(uuid.uuid4()), "owner": str(username)})
     repo.insert_document(livre.model_dump())
     return livre
 
@@ -130,3 +131,14 @@ async def register_user(username: str, password: str):
 @app.post("/login")
 async def login_user(username: str, password: str):
     return repo.login(username, password)
+
+@app.get("/getAllBooksByOwner", response_model=List[Livre])
+async def get_all_books_by_owner(username: str):
+    """
+    Endpoint pour récupérer tous les livres appartenant à un utilisateur spécifique.
+    """
+    try:
+        livres = repo.find_documents_by_field("owner", username)
+        return livres
+    except Exception as e:
+        return {"error": str(e)}

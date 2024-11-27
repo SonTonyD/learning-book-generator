@@ -39,6 +39,20 @@ def find_all_documents():
     print(f"{len(documents)} documents trouvés.")
     return documents
 
+# Fonction pour rechercher des documents par champ
+def find_documents_by_field(field_name, field_value):
+    """
+    Rechercher des documents dans la collection en fonction d'un champ spécifique.
+
+    :param field_name: Nom du champ sur lequel effectuer la recherche
+    :param field_value: Valeur à rechercher dans le champ
+    :return: Liste des documents correspondants
+    """
+    query = {field_name: field_value}
+    documents = list(collection.find(query))
+    print(f"{len(documents)} documents trouvés avec {field_name} = {field_value}.")
+    return documents
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password: str) -> str:
