@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from mangum import Mangum
 from pydantic import BaseModel
 from typing import List, Optional
 from fastapi.middleware.cors import CORSMiddleware
@@ -153,3 +154,5 @@ async def get_all_books_by_owner(username: str):
         return livres
     except Exception as e:
         return {"error": str(e)}
+    
+handler = Mangum(app)
