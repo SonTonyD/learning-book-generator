@@ -32,7 +32,7 @@ class Livre(BaseModel):
     titre: str
     chapitres: List[Chapitre]
 
-app.add_middleware(
+""" app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4200",  # URL de votre application Angular
@@ -41,7 +41,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],  # Autorise toutes les méthodes HTTP
     allow_headers=["*"],  # Autorise tous les headers
-)
+) """
 
 # Fonction pour analyser le texte
 def analyser_texte(texte: str) -> Livre:
@@ -107,13 +107,6 @@ def lire_fichier(fichier_path):
         print(f"Une erreur est survenue lors de la lecture du fichier : {e}")
         return None
 
-from fastapi.responses import JSONResponse
-from fastapi.middleware.wsgi import WSGIMiddleware
-
-def handler(request, *args):
-    asgi_app = WSGIMiddleware(app)
-    return asgi_app(request, *args)
-
 @app.get("/")
 async def root():
     return {"message": "Learning Book Generator on Vercel"}
@@ -154,5 +147,3 @@ async def get_all_books_by_owner(username: str):
         return livres
     except Exception as e:
         return {"error": str(e)}
-    
-handler = Mangum(app)
