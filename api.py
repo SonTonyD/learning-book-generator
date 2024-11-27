@@ -106,6 +106,17 @@ def lire_fichier(fichier_path):
         print(f"Une erreur est survenue lors de la lecture du fichier : {e}")
         return None
 
+from fastapi.responses import JSONResponse
+from fastapi.middleware.wsgi import WSGIMiddleware
+
+def handler(request, *args):
+    asgi_app = WSGIMiddleware(app)
+    return asgi_app(request, *args)
+
+@app.get("/")
+async def root():
+    return {"message": "Learning Book Generator on Vercel"}
+
 @app.get("/generateBook", response_model=Livre)
 async def generate_book(sujet: str, username: str):
     main_program.generate_livre(sujet)
