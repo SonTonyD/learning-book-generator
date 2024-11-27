@@ -32,16 +32,17 @@ class Livre(BaseModel):
     titre: str
     chapitres: List[Chapitre]
 
-""" app.add_middleware(
+app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4200",  # URL de votre application Angular
-        "http://127.0.0.1:4200",  # Ajoutez aussi cette variante
+        "http://127.0.0.1:4200"
+        "https://prototype-ai-school-frontend.vercel.app/",  # Ajoutez aussi cette variante
     ],
     allow_credentials=True,
     allow_methods=["*"],  # Autorise toutes les méthodes HTTP
     allow_headers=["*"],  # Autorise tous les headers
-) """
+)
 
 # Fonction pour analyser le texte
 def analyser_texte(texte: str) -> Livre:
