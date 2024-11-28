@@ -36,7 +36,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:4200",  # URL de votre application Angular
-        "http://127.0.0.1:4200"
+        "http://127.0.0.1:4200",
         "https://prototype-ai-school-frontend.vercel.app",  # Ajoutez aussi cette variante
     ],
     allow_credentials=True,
