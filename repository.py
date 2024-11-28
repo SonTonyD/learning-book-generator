@@ -27,6 +27,7 @@ def insert_document(document):
     """
     result = collection.insert_one(document)
     print(f"Document inséré avec l'ID : {result.inserted_id}")
+    return result
 
 # Fonction pour rechercher tous les documents
 def find_all_documents():
